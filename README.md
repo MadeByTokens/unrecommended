@@ -131,6 +131,13 @@ You can also start from someone's list: open their repository and click
   embedded player, so it needs an internet connection, and YouTube sees the
   views. The player uses `youtube-nocookie.com`, which reduces cookies but
   doesn't remove YouTube.
+- **YouTube may play ads** before or during a video, as it does on any site
+  that embeds its player. YouTube and the channel decide this; the site
+  can't turn ads off, and the ads are not from your list. In TV mode and
+  kid-safe mode the player is covered, so YouTube's **Skip** button can't be
+  pressed either: an ad plays until it ends. If ads matter (for a child's
+  site, say), test a few videos first; an ad blocker in the browser may
+  help.
 - **Creators' own end screens and cards** are part of the video. In normal
   mode they can be clicked; in TV mode and kid-safe mode they are covered.
 - **Some videos can't be played outside YouTube**, because their channel
