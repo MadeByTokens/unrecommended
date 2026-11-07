@@ -580,9 +580,13 @@
 
   function onStageClick(e) {
     const el = e.target.closest("[data-act]");
+    // A tap while the controls are hidden only brings them back (on a
+    // phone, that's how you reach them), instead of pausing as well.
+    const hidden = W.stage.classList.contains("idle") && !W.stage.classList.contains("paused");
     wakeControls();
     if (!el) return;
     const act = el.dataset.act;
+    if (act === "cover" && hidden) return;
     if (act === "cover") togglePlay();
     else if (act === "play") togglePlay();
     else if (act === "next") goNext(false);
@@ -711,11 +715,55 @@
     W.mode = null;
   }
 
+  // ------------------------------------------------------------ look
+  const IMAGE = /^([A-Za-z0-9][A-Za-z0-9._-]*\.(svg|png|jpe?g|gif|webp|ico)|https:\/\/[^\s"'<>]+)$/i;
+
+  /** Logo, favicon and accent colour from the `site:` settings. */
+  function applyLook() {
+    const logo = document.getElementById("site-logo");
+    if (site.logo === undefined) site.logo = "logo.svg";
+    if (site.logo && IMAGE.test(site.logo)) {
+      logo.src = site.logo;
+      logo.hidden = false;
+    }
+    if (site.favicon && IMAGE.test(site.favicon) && site.favicon !== "favicon.svg") {
+      document.getElementById("favicon").href = site.favicon;
+      document.getElementById("touch-icon").href = site.favicon;
+    }
+    if (/^#[0-9a-f]{6}$/i.test(site.accent || "")) {
+      document.documentElement.style.setProperty("--accent", site.accent);
+      document.querySelector('meta[name="theme-color"]').content = site.accent;
+    }
+  }
+
+  /** The owner's own text: paragraphs, with web addresses made clickable
+   * (left as plain text on kid-safe sites, which link nowhere). */
+  function aboutHtml(text) {
+    return text
+      .split(/\n\s*\n/)
+      .map((para) => {
+        // Single line breaks are just where the text wrapped in the editor.
+        let html = esc(para.trim().replace(/\s*\n\s*/g, " "));
+        if (!site.kid_safe) {
+          html = html.replace(/https?:\/\/[^\s<]+?(?=[.,;:!?)]*(\s|$))/g, (url) => `<a href="${url}" rel="noopener">${url}</a>`);
+        }
+        return `<p>${html}</p>`;
+      })
+      .join("");
+  }
+
   // ------------------------------------------------------------ about page
   function renderAbout() {
     document.title = `About · ${site.title}`;
     main.innerHTML = "";
     main.appendChild(document.getElementById("tpl-about").content.cloneNode(true));
+    if (site.about) {
+      document.getElementById("owner-about").hidden = false;
+      document.getElementById("owner-title").textContent = `About ${site.title}`;
+      document.getElementById("owner-text").innerHTML = aboutHtml(site.about);
+    } else {
+      document.getElementById("site-about-title").textContent = "About this site";
+    }
     const msg = document.getElementById("data-msg");
     document.getElementById("export").addEventListener("click", () => {
       const blob = new Blob([JSON.stringify({ unrecommended: 1, ...store }, null, 1)], { type: "application/json" });
@@ -886,6 +934,7 @@
     document.getElementById("site-title").textContent = site.title;
     document.getElementById("site-desc").textContent = site.description || "";
     document.body.classList.toggle("kid", !!site.kid_safe);
+    applyLook();
     if (data.generated) {
       const when = data.generated.slice(0, 10);
       document.getElementById("updated").textContent = `List updated ${ago(when)}.`;

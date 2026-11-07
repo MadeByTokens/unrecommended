@@ -259,6 +259,38 @@ def parse_groups(data, filename: str, origin: str) -> list[tuple[str, list[Chann
     return groups
 
 
+IMAGE_FILE_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*\.(svg|png|jpe?g|gif|webp|ico)$", re.IGNORECASE)
+COLOR_RE = re.compile(r"^#[0-9A-Fa-f]{6}$")
+
+
+def parse_image(site_data: dict, key: str, default: str, filename: str) -> str:
+    """A picture setting: a file name in the site/ folder, an https:// link,
+    or "none" (only sensible for the logo). Returns "" for none."""
+    value = site_data.get(key, default)
+    if value is None or value is False or (isinstance(value, str) and value.strip().lower() in ("", "none")):
+        return ""
+    if not isinstance(value, str):
+        raise ConfigError(f"{filename}: `{key}:` must be a file name such as {default}")
+    value = value.strip()
+    if value.startswith("site/"):
+        value = value[len("site/") :]
+    if IMAGE_FILE_RE.match(value) or re.match(r"^https://[^\s\"'<>]+$", value):
+        return value
+    raise ConfigError(
+        f"{filename}: `{key}: {value}` should be the name of a picture you uploaded to the "
+        f"site folder (like my-{key}.png), a link starting with https://, or none"
+    )
+
+
+def parse_color(site_data: dict, key: str, filename: str) -> str:
+    value = site_data.get(key)
+    if value is None or value == "":
+        return ""
+    if isinstance(value, str) and COLOR_RE.match(value.strip()):
+        return value.strip().lower()
+    raise ConfigError(f'{filename}: `{key}:` must be a colour written like "#b4462b" (with the quotes)')
+
+
 def parse_config(text: str, filename: str = "channels.yaml") -> Config:
     data = load_yaml_text(text, filename)
     if data is None:
@@ -277,7 +309,11 @@ def parse_config(text: str, filename: str = "channels.yaml") -> Config:
     site = {
         "title": str(site_data.get("title") or "unrecommended"),
         "description": str(site_data.get("description") or ""),
+        "about": str(site_data.get("about") or "").strip(),
         "kid_safe": bool(site_data.get("kid_safe", False)),
+        "logo": parse_image(site_data, "logo", "logo.svg", filename),
+        "favicon": parse_image(site_data, "favicon", "favicon.svg", filename),
+        "accent": parse_color(site_data, "accent", filename),
     }
     vpc = site_data.get("videos_per_channel", DEFAULT_VIDEOS_PER_CHANNEL)
     if not isinstance(vpc, int) or isinstance(vpc, bool) or vpc < 1:
@@ -813,6 +849,10 @@ def main(argv=None) -> int:
         return 1
 
     out = Path(args.out)
+    for key in ("logo", "favicon"):
+        name = config.site[key]
+        if name and not name.startswith("https://") and not (out.parent / name).exists():
+            warn(f"site {key} {name!r} is not in the site folder; upload it there or fix the name")
     out.parent.mkdir(parents=True, exist_ok=True)
     tmp = out.with_suffix(".tmp")
     tmp.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

@@ -43,6 +43,8 @@ where people can find each other's lists.
 
 ## Using the site
 
+It works the same on computers, tablets and phones (upright or sideways).
+
 - **Groups** across the top are the groups from your `channels.yaml`.
   **Everything** shows all channels together, newest first. Click a channel's
   name to see only that channel.
@@ -56,7 +58,7 @@ where people can find each other's lists.
 
 **Watched**, **Watch later** and where you stopped in each video are kept in
 your browser only, never sent anywhere. Another device or browser starts
-empty. To move them, use **About this site and your data** (at the bottom of
+empty. To move them, use **About this list and your data** (at the bottom of
 the page): **Save to a file** there, then **Load from a file** on the other
 device.
 
@@ -68,6 +70,11 @@ Everything is in `channels.yaml`:
 site:
   title: Our videos          # name at the top of the page
   description: Hand-picked.  # one line under it ("" for none)
+  about: |                   # longer text for the About page (see below)
+    What this list is, who made it, why.
+  logo: logo.svg             # see "Make it look like yours"
+  favicon: favicon.svg
+  accent: "#b4462b"          # colour of buttons and highlights
   kid_safe: false            # see below
   videos_per_channel: 200    # newest videos listed per channel
 
@@ -87,6 +94,44 @@ include:
 Channel addresses can be in any of the usual forms: `@name`,
 `youtube.com/@name`, `youtube.com/channel/UC…`, `youtube.com/c/name`.
 Only regular videos are listed: no Shorts, no livestreams.
+
+### About your list
+
+Like the description of a YouTube channel, `about:` is a longer text shown at
+the top of your site's **About** page (the link at the bottom of every page):
+what the list is for, who keeps it, how to suggest a channel. Write it under
+`about: |`, every line indented by four spaces. An empty line starts a new
+paragraph, and web addresses become links.
+
+```yaml
+  about: |
+    Channels our family likes, picked by Ana and Leo.
+
+    Know a good channel? Tell us at https://example.org/suggest
+```
+
+### Make it look like yours
+
+You don't need to touch any code. Everything is done in the GitHub website:
+
+1. **Your own logo** (the picture next to the title): in your repository,
+   open the `site` folder, click **Add file** → **Upload files**, drop in
+   your picture (PNG, JPG, SVG or WebP; square-ish works best, at least
+   120×120 pixels) and click **Commit changes**. Then, in `channels.yaml`,
+   write its name: `logo: my-logo.png`. To have no logo, write `logo: none`.
+2. **Your own favicon** (the small icon in the browser tab and on phone home
+   screens): upload a square picture the same way (at least 180×180 pixels,
+   simple shapes, few details; it is shown very small) and write
+   `favicon: my-icon.png`.
+3. **Your own colour**: `accent: "#2b6cb4"` (keep the quotes) changes the
+   colour of buttons and highlights. Pick one with any online "colour
+   picker"; dark, strong colours read best.
+4. **Your own README picture** (optional): `docs/banner.png` is the picture
+   at the top of this page on GitHub. Replace it the same way, or delete the
+   first line of `README.md`.
+
+If a picture's name in `channels.yaml` doesn't match an uploaded file, the
+build log shows a warning, and the browser shows no logo.
 
 ### Kid-safe mode
 
@@ -230,9 +275,11 @@ For development: `pip install pytest ruff`, then `ruff check .`,
 - Artwork: `scripts/make_art.py` draws `site/logo.svg`, `site/favicon.svg`
   and `docs/banner.svg`. `docs/banner.png` and `site/apple-touch-icon.png`
   are renderings of them, and `docs/brand-board.webp` is the AI-generated
-  sketch the drawings are based on. To give your copy its own look, replace
-  these files; the page itself only needs `logo.svg`, `favicon.svg` and
-  `apple-touch-icon.png`.
+  sketch the drawings are based on. To use your own pictures instead, see
+  "Make it look like yours" above.
+- The small "Made with unrecommended" line at the bottom of every page links
+  back to this template so visitors know they can make their own. It is
+  hidden on kid-safe sites, which link nowhere outside the list.
 
 ## License
 

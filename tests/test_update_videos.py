@@ -90,6 +90,33 @@ def test_config_defaults_and_validation():
         uv.parse_config("groups:\n  G: '@a'\n")
 
 
+def test_site_look_settings():
+    config = uv.parse_config(
+        "site:\n  about: |\n    Hi.\n\n    More.\n  logo: site/me.PNG\n  favicon: https://x.org/i.png\n"
+        "  accent: '#AABBCC'\ngroups:\n  G: ['@a']\n"
+    )
+    assert config.site["about"] == "Hi.\n\nMore."
+    assert (config.site["logo"], config.site["favicon"]) == ("me.PNG", "https://x.org/i.png")
+    assert config.site["accent"] == "#aabbcc"
+    defaults = uv.parse_config("groups:\n  G: ['@a']\n").site
+    assert (defaults["logo"], defaults["favicon"], defaults["accent"]) == ("logo.svg", "favicon.svg", "")
+    assert uv.parse_config("site:\n  logo: none\ngroups:\n  G: ['@a']\n").site["logo"] == ""
+
+
+@pytest.mark.parametrize(
+    ("setting", "message"),
+    [
+        ("logo: ../secret.png", "should be the name of a picture"),
+        ("logo: javascript:alert(1)", "should be the name of a picture"),
+        ("favicon: http://plain.org/i.png", "should be the name of a picture"),
+        ("accent: red", "must be a colour"),
+    ],
+)
+def test_site_look_errors(setting, message):
+    with pytest.raises(uv.ConfigError, match=message):
+        uv.parse_config(f"site:\n  {setting}\ngroups:\n  G: ['@a']\n")
+
+
 @pytest.mark.parametrize(
     ("raw", "key", "group"),
     [

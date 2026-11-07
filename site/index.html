@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>unrecommended</title>
   <meta name="description" content="Videos from a hand-picked list of YouTube channels.">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" href="favicon.svg" id="favicon">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" id="touch-icon">
   <meta name="theme-color" content="#b4462b">
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
@@ -17,7 +17,7 @@
   <header class="masthead">
     <div class="masthead-row">
       <a class="brand" href="#/">
-        <img class="brand-logo" src="logo.svg" alt="" width="58" height="60">
+        <img class="brand-logo" id="site-logo" src="logo.svg" alt="" width="58" height="60" hidden>
         <span class="brand-text">
           <span class="brand-title" id="site-title">unrecommended</span>
           <span class="brand-desc" id="site-desc"></span>
@@ -38,13 +38,20 @@
   <footer class="colophon" id="colophon">
     <p>
       <span id="updated"></span>
-      <a href="#/about">About this site and your data</a>
+      <a href="#/about">About this list and your data</a>
+      <span class="credit external">Made with
+        <a href="https://github.com/MadeByTokens/unrecommended" rel="noopener">unrecommended</a>:
+        make your own list like this one.</span>
     </p>
   </footer>
 
   <template id="tpl-about">
     <article class="prose">
-      <h1>About this site</h1>
+      <section id="owner-about" hidden>
+        <h1 id="owner-title"></h1>
+        <div id="owner-text"></div>
+      </section>
+      <h2 id="site-about-title">How this site works</h2>
       <p>
         This site shows videos from a short list of YouTube channels chosen
         by whoever made it, and nothing else: no comments, no recommendations,
@@ -52,8 +59,10 @@
         is watched.
       </p>
       <p class="external">
-        It was made with <a href="https://github.com/topics/unrecommended">unrecommended</a>,
-        a template anyone can copy to make their own list.
+        It was made with <a href="https://github.com/MadeByTokens/unrecommended">unrecommended</a>,
+        a free template anyone can copy to make their own list, no programming
+        needed. Other people's lists are at
+        <a href="https://github.com/topics/unrecommended">github.com/topics/unrecommended</a>.
       </p>
       <h2>Your data</h2>
       <p>

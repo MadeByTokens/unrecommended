@@ -13,6 +13,24 @@ site:
   title: unrecommended
   # One line under the title. Leave it empty ("") for none.
   description: Videos from channels I chose. Nothing else.
+  # A longer text about your list, shown on the site's About page, like the
+  # description of a YouTube channel. Keep the "|" and indent every line by
+  # four spaces; leave an empty line between paragraphs. Web addresses become
+  # links. Delete these lines if you don't want one.
+  about: |
+    A small demo of unrecommended: a few science, maths and making-things
+    channels, so you can see how a list looks.
+
+    Make your own by copying the template at
+    https://github.com/MadeByTokens/unrecommended
+  # Your own pictures (optional). Upload the file into the "site" folder of
+  # your repository, then write its name here. Leave as is to keep the
+  # unrecommended TV. logo: none hides the logo.
+  logo: logo.svg
+  favicon: favicon.svg
+  # The highlight colour of buttons and links, written like "#b4462b"
+  # (keep the quotes). Leave empty ("") for the default brick red.
+  accent: ""
   # true = for children: no links out to YouTube, videos always play
   # full screen and clicks can't reach YouTube's own buttons.
   kid_safe: false
