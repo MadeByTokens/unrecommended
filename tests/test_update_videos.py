@@ -381,3 +381,50 @@ def test_main_reports_yaml_error(tmp_path, capsys):
     # stderr locally; stdout as an ::error annotation on GitHub Actions.
     captured = capsys.readouterr()
     assert "not valid YAML" in captured.out + captured.err
+
+
+# ------------------------------------------------------------------ check
+
+
+def test_check_reports_bad_channels(capsys):
+    config = uv.parse_config("groups:\n  G:\n    - '@ok'\n    - '@empty'\n    - '@gone'\n")
+
+    def ytdlp(url, limit):
+        if url.endswith("@ok"):
+            return {"channel_id": CID_A, "channel": "Ok", "entries": [{"id": vid(1), "title": "t"}]}
+        if url.endswith("@empty"):
+            return {"channel_id": CID_B, "channel": "Empty", "entries": []}
+        raise RuntimeError("ERROR: This channel does not exist")
+
+    assert uv.check(config, ytdlp=ytdlp) == 1
+    out = capsys.readouterr()
+    text = out.out + out.err
+    assert "ok  [G] @ok -> Ok" in text
+    assert "no regular videos" in text
+    assert "does not exist" in text
+    assert uv.check(config, offline=True) == 0
+
+
+# ------------------------------------------------------------------ schema
+
+
+def test_schema_agrees_with_parser():
+    jsonschema = pytest.importorskip("jsonschema")
+    import yaml
+
+    schema = json.loads((ROOT / "channels.schema.json").read_text())
+    jsonschema.validate(yaml.safe_load((ROOT / "channels.yaml").read_text()), schema)
+    good = yaml.safe_load(
+        "site: {title: T, about: x, logo: none, favicon: site/i.png, accent: '#aabbcc', kid_safe: true}\n"
+        "groups:\n  G:\n    - '@a'\n    - {url: '@b', name: B}\n  Empty:\ninclude: [alice/list#G]\n"
+    )
+    jsonschema.validate(good, schema)
+    for bad in (
+        {"sites": {}},
+        {"site": {"accent": "red"}},
+        {"site": {"logo": "../x.png"}},
+        {"groups": {"G": [{"name": "no url"}]}},
+        {"include": ["https://gitlab.com/a/b"]},
+    ):
+        with pytest.raises(jsonschema.ValidationError):
+            jsonschema.validate(bad, schema)

@@ -41,6 +41,43 @@ into **Website**. The topic puts your list on
 [github.com/topics/unrecommended](https://github.com/topics/unrecommended),
 where people can find each other's lists.
 
+## Or let an AI agent make it
+
+If you use an AI coding agent (Claude Code, Codex, Cursor, Copilot and the
+like) that can use GitHub on your behalf, describe what you want and it can
+do all of the above for you: create your copy, find real channels that fit,
+write `channels.yaml`, check every channel works and publish the site. This
+repository includes instructions written for agents
+([AGENTS.md](AGENTS.md)), so a request like these is enough:
+
+> Using the template at https://github.com/MadeByTokens/unrecommended, make
+> me an unrecommended site called "Dad TV" for my father's birthday: steam
+> trains, jazz piano and woodworking.
+
+> Make a kid-safe unrecommended site for a 6-year-old who loves animals,
+> space and building with blocks. Calm channels only: no pranks, no
+> shouting thumbnails.
+
+> Make an unrecommended site for my grandmother: gardening, classic film
+> history and cooking from her home country, Italy. Big, simple groups.
+
+> Make an unrecommended site that shows what a slow, calm internet could
+> look like: slow TV, nature, craft and long-form documentaries, with an
+> About text explaining why.
+
+> Make an unrecommended site that is a joke for my friend who won't stop
+> talking about bridges: only channels about bridges, grouped by kind of
+> bridge.
+
+> Make an unrecommended site of channels covering local and national
+> politics from across the spectrum, grouped by viewpoint, so people can
+> see each side in its own words.
+
+Good agents will ask a few questions first (who it's for, kid-safe or not,
+what to call it), then show you the channels they picked before
+publishing. The list is public, so don't ask for anything you wouldn't want
+others to see.
+
 ## Using the site
 
 It works the same on computers, tablets and phones (upright or sideways).
@@ -260,6 +297,13 @@ For development: `pip install pytest ruff`, then `ruff check .`,
 ## How it works
 
 - `channels.yaml`: your settings and channels.
+- `AGENTS.md`: instructions for AI agents making a site or changing the
+  template. `channels.schema.json` describes `channels.yaml` formally (editors
+  such as VS Code use it to check the file as you type).
+- `scripts/find_channels.py`: searches YouTube for channels about a topic and
+  shows their newest videos, to pick channels for a list.
+  `python scripts/update_videos.py --check` checks that every channel in
+  `channels.yaml` exists and has videos.
 - `scripts/update_videos.py`: lists each channel's regular videos with
   [yt-dlp](https://github.com/yt-dlp/yt-dlp), falling back to the channel's
   RSS feed and the site's previous list when that fails, and writes
@@ -280,6 +324,15 @@ For development: `pip install pytest ruff`, then `ruff check .`,
 - The small "Made with unrecommended" line at the bottom of every page links
   back to this template so visitors know they can make their own. It is
   hidden on kid-safe sites, which link nowhere outside the list.
+
+## Credits
+
+unrecommended was inspired by Andrej Karpathy's
+[TristanTube](https://karpathy.ai/tristan-tube): a static page of
+hand-picked videos, listed with yt-dlp and played through YouTube's embedded
+player, where the next video comes from the list instead of an algorithm.
+unrecommended turns that idea into a template anyone can copy. The look and
+the code are its own.
 
 ## License
 

@@ -809,6 +809,47 @@ def write_summary(results: list[ChannelResult], total: int) -> None:
         fh.write("\n".join(lines) + "\n")
 
 
+def check(config: Config, offline: bool = False, fetch=None, ytdlp=None) -> int:
+    """Check a config without building: 0 when every channel works."""
+    fetch = fetch or http_get
+    ytdlp = ytdlp or run_ytdlp
+    groups = config.groups
+    if not offline and config.includes:
+        groups = merge_groups(groups, resolve_includes(config, {}, fetch))
+    refs = [(g, r) for g, rs in groups for r in rs]
+    log(
+        f"channels.yaml is valid: {len(groups)} groups, {len(refs)} channel entries, "
+        f"{len(config.includes)} includes"
+    )
+    if offline:
+        return 0
+    if shutil.which("yt-dlp") is None and ytdlp is run_ytdlp:
+        error("--check needs yt-dlp installed (or use --offline)")
+        return 1
+    bad = 0
+    for gname, ref in refs:
+        try:
+            listing = parse_ytdlp(ytdlp(ref.url, 1))
+        except (RuntimeError, subprocess.TimeoutExpired, json.JSONDecodeError, OSError) as exc:
+            bad += 1
+            error(f"[{gname}] {ref.raw}: {exc}")
+            continue
+        if not listing.videos:
+            bad += 1
+            error(f"[{gname}] {ref.raw}: found the channel ({listing.name}) but no regular videos")
+            continue
+        newest = listing.videos[0]
+        log(
+            f"  ok  [{gname}] {ref.raw} -> {listing.name} ({listing.channel_id}); "
+            f"newest: {newest.date or '?'} {newest.title}"
+        )
+    if bad:
+        error(f"{bad} of {len(refs)} channels have a problem")
+        return 1
+    log(f"all {len(refs)} channels work")
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--config", default="channels.yaml")
@@ -821,6 +862,14 @@ def main(argv=None) -> int:
         "can be given more than once (default: the --out file)",
     )
     parser.add_argument("--no-ytdlp", action="store_true", help="use only the RSS feeds")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="only check channels.yaml: each channel must exist and have videos; writes nothing",
+    )
+    parser.add_argument(
+        "--offline", action="store_true", help="with --check: check the file only, no network"
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -833,6 +882,9 @@ def main(argv=None) -> int:
     except ConfigError as exc:
         error(str(exc), getattr(exc, "line", None), args.config)
         return 1
+
+    if args.check:
+        return check(config, offline=args.offline)
 
     use_ytdlp = not args.no_ytdlp
     if use_ytdlp and shutil.which("yt-dlp") is None:

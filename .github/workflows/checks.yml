@@ -28,7 +28,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install
-        run: pip install -r requirements.txt pytest ruff
+        run: pip install -r requirements.txt pytest ruff jsonschema
 
       - name: Lint Python
         run: |
@@ -42,4 +42,4 @@ jobs:
         run: node --check site/app.js
 
       - name: Check channels.yaml
-        run: python -c "import sys; sys.path.insert(0, 'scripts'); import update_videos as u; u.parse_config(open('channels.yaml').read())"
+        run: python scripts/update_videos.py --check --offline

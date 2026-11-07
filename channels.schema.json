@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MadeByTokens/unrecommended/channels.schema.json",
+  "title": "unrecommended channels.yaml",
+  "description": "The list of YouTube channels an unrecommended site shows, and the site's settings. scripts/update_videos.py reads it (and ignores unknown settings, which this schema rejects); run it with --check to verify a file.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "site": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "description": "Name at the top of the site. Default: unrecommended." },
+        "description": { "type": "string", "description": "One line under the title." },
+        "about": {
+          "type": "string",
+          "description": "Longer text for the About page, like a YouTube channel description. Blank lines separate paragraphs; single line breaks are spaces; http(s) addresses become links (plain text when kid_safe)."
+        },
+        "logo": {
+          "type": "string",
+          "description": "Picture next to the title: a file name in the site/ folder (svg, png, jpg, jpeg, gif, webp, ico), an https:// URL, or none. Default: logo.svg.",
+          "pattern": "^(none|(site/)?[A-Za-z0-9][A-Za-z0-9._-]*\\.([Ss][Vv][Gg]|[Pp][Nn][Gg]|[Jj][Pp][Ee]?[Gg]|[Gg][Ii][Ff]|[Ww][Ee][Bb][Pp]|[Ii][Cc][Oo])|https://[^\\s\"'<>]+)$"
+        },
+        "favicon": {
+          "type": "string",
+          "description": "Browser tab and phone home-screen icon; same forms as logo. Default: favicon.svg.",
+          "pattern": "^((site/)?[A-Za-z0-9][A-Za-z0-9._-]*\\.([Ss][Vv][Gg]|[Pp][Nn][Gg]|[Jj][Pp][Ee]?[Gg]|[Gg][Ii][Ff]|[Ww][Ee][Bb][Pp]|[Ii][Cc][Oo])|https://[^\\s\"'<>]+)$"
+        },
+        "accent": {
+          "type": "string",
+          "description": "Highlight colour as #rrggbb, or empty for the default brick red.",
+          "pattern": "^(#[0-9A-Fa-f]{6})?$"
+        },
+        "kid_safe": {
+          "type": "boolean",
+          "description": "For children: always TV mode (player covered, own controls), no links out of the site."
+        },
+        "videos_per_channel": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How many of each channel's newest regular videos to list. Default: 200."
+        }
+      }
+    },
+    "groups": {
+      "type": "object",
+      "description": "Group name -> list of channels. Groups appear as tabs, in this order. A channel may appear in several groups.",
+      "additionalProperties": {
+        "type": ["array", "null"],
+        "items": {
+          "oneOf": [
+            {
+              "type": "string",
+              "description": "A channel: @handle, https://www.youtube.com/@handle, .../channel/UC..., .../c/name, .../user/name, or a bare UC... ID. Not a video link."
+            },
+            {
+              "type": "object",
+              "required": ["url"],
+              "additionalProperties": false,
+              "properties": {
+                "url": { "type": "string", "description": "The channel, in any form accepted above." },
+                "name": { "type": "string", "description": "Name to show instead of the channel's own." }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "include": {
+      "type": ["array", "null"],
+      "description": "Other unrecommended repositories whose channels are added (one level deep). Add #GroupName to take one group only.",
+      "items": {
+        "type": "string",
+        "pattern": "^((https?://)?(www\\.)?github\\.com/)?[A-Za-z0-9-]+/[A-Za-z0-9._-]+(\\.git)?/?(#.+)?$"
+      }
+    }
+  }
+}

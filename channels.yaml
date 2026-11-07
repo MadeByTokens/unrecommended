@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=channels.schema.json
 # Your channels. This is the only file you need to edit.
 #
 # After you save it (the "Commit changes" button), GitHub rebuilds your site
