@@ -351,4 +351,6 @@ def test_main_reports_yaml_error(tmp_path, capsys):
     cfg = tmp_path / "channels.yaml"
     cfg.write_text("groups:\n  G:\n    - '@a'\n   - '@b'\n")
     assert uv.main(["--config", str(cfg), "--out", str(tmp_path / "v.json")]) == 1
-    assert "not valid YAML" in capsys.readouterr().err
+    # stderr locally; stdout as an ::error annotation on GitHub Actions.
+    captured = capsys.readouterr()
+    assert "not valid YAML" in captured.out + captured.err
