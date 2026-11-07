@@ -602,11 +602,15 @@
   }
 
   // ------------------------------------------------------------ watch page
+  const LIST_ROUTES = new Set([undefined, "g", "c", "later", "history"]);
+
   function queueFor(from, v) {
+    // `from` comes from the URL: accept only list routes, and rebuild it so
+    // links made from it are always internal "#/..." routes.
     const r = parseHash(from);
-    if (r.parts[0] !== "v" && r.parts[0] !== "about") {
+    if (LIST_ROUTES.has(r.parts[0])) {
       const { list, title } = listFor(r.parts, r.params);
-      if (list.some((x) => x.id === v.id)) return { list, label: title, from };
+      if (list.some((x) => x.id === v.id)) return { list, label: title, from: makeHash(r.parts, r.params) };
     }
     // Opened from elsewhere (a shared link): continue with its channel.
     return {
