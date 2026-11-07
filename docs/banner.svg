@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 400" width="1280" height="400" role="img"
+  aria-label="unrecommended: your own YouTube, without the algorithm">
+  <rect width="1280" height="400" fill="#f6f3ec"/>
+  <text x="72" y="190" font-family="'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif" font-weight="700" font-size="74" fill="#1f1d1a"
+    letter-spacing="-0.5"><tspan fill="#b4462b">un</tspan>recommended</text>
+  <text font-family="system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="31" fill="#1f1d1a">
+    <tspan x="76" y="246">Your own YouTube,</tspan>
+    <tspan x="76" y="286">without the algorithm.</tspan>
+  </text>
+  <path d="M76 326 h120" stroke="#b4462b" stroke-width="5" stroke-linecap="round"/>
+  
+  <!-- armchair -->
+  <g stroke="#1f1d1a" stroke-width="3.2" stroke-linejoin="round">
+    <rect x="808" y="168" width="196" height="150" rx="34" fill="#d8cfbe"/>
+    <rect x="826" y="262" width="160" height="56" rx="14" fill="#e6dfd1"/>
+    <rect x="786" y="232" width="52" height="98" rx="22" fill="#e6dfd1"/>
+    <rect x="974" y="232" width="52" height="98" rx="22" fill="#e6dfd1"/>
+    <path d="M806 330 l-6 22 M1006 330 l6 22" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- the TV, relaxing -->
+  <g transform="translate(828 107) scale(2.6)">
+    <path d="M30 20 L21 7 M30 20 L39 8" fill="none" stroke="#1f1d1a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="21" cy="7" r="1.8" fill="#1f1d1a"/>
+  <path d="M16 54 L13 59.5 M45 54 L48 59.5" fill="none" stroke="#1f1d1a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="7" y="20" width="47" height="35" rx="7" fill="#b4462b" stroke="#1f1d1a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M26 20 a4 4 0 0 1 8 0" fill="#1f1d1a"/>
+  <rect x="12" y="25" width="30" height="25" rx="5.5" fill="#f6f3ec" stroke="#1f1d1a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="48" cy="32" r="2.2" fill="#f6f3ec" stroke="#1f1d1a" stroke-width="1.8"/>
+  <circle cx="48" cy="40" r="2.2" fill="#f6f3ec" stroke="#1f1d1a" stroke-width="1.8"/>
+  <path d="M17.5 34 q2.7 3 5.4 0 M30.5 34 q2.7 3 5.4 0" fill="none" stroke="#1f1d1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M26 40.2 c2.3 0 2.3 1.9 0 1.9 c2.3 0 2.3 1.9 0 1.9" fill="none" stroke="#1f1d1a" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M39 8 C44 8 47 10 47.5 13.5" fill="none" stroke="#1f1d1a" stroke-width="1.6"/>
+  <g transform="rotate(16 47.5 13.5)"><rect x="42.5" y="12" width="10" height="16" rx="2.2" fill="#b4462b" stroke="#1f1d1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="47.5" cy="15" r="1.2" fill="#f6f3ec"/><circle cx="47.5" cy="22" r="3" fill="none" stroke="#f6f3ec" stroke-width="1.5"/><path d="M45.4 24.1 L49.6 19.9" stroke="#f6f3ec" stroke-width="1.5" stroke-linecap="round"/></g>
+  </g>
+  <!-- headphones -->
+  <g fill="none" stroke="#1f1d1a" stroke-linecap="round">
+    <path d="M842 200 C842 112 976 112 976 200" stroke-width="7"/>
+  </g>
+  <rect x="830" y="184" width="22" height="48" rx="9" fill="#1f1d1a"/>
+  <rect x="966" y="184" width="22" height="48" rx="9" fill="#1f1d1a"/>
+  <!-- tea on the armrest -->
+  <g stroke="#1f1d1a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M792 206 h34 v14 a17 17 0 0 1 -34 0 z" fill="#fffdf8"/>
+    <path d="M826 212 a8 8 0 0 1 0 15" fill="none"/>
+    <path d="M800 196 q-6 -9 0 -18 t0 -18 M814 196 q-6 -9 0 -18 t0 -18" fill="none" stroke="#6b655c" stroke-width="2.4"/>
+  </g>
+  <!-- broom, sweeping -->
+  <g stroke="#1f1d1a" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M992 300 L1062 360" stroke-width="7" stroke="#8a5a36"/>
+    <path d="M1052 344 l40 -14 l28 44 l-48 14 z" fill="#d9a441" stroke-width="3"/>
+    <path d="M1078 342 l16 34 M1090 337 l18 34 M1068 348 l14 33" stroke-width="2" fill="none"/>
+    <path d="M1124 380 q14 -6 22 -18 M1136 388 q16 -4 26 -14" stroke="#6b655c" stroke-width="3" fill="none"/>
+  </g>
+
+  <path d="M1070 300 Q1099.0 254.8 1150 238" fill="none" stroke="#b4462b" stroke-width="7" stroke-linecap="round"/><path d="M1143.6 254.8 L1150 238 L1132.1 240.0" fill="none" stroke="#b4462b" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M1110 200 Q1148.2 153.9 1206 138" fill="none" stroke="#6b655c" stroke-width="6" stroke-linecap="round"/><path d="M1198.2 154.2 L1206 138 L1188.0 138.4" fill="none" stroke="#6b655c" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1160 300 Q1204.7 264.1 1262 262" fill="none" stroke="#1f1d1a" stroke-width="6" stroke-linecap="round"/><path d="M1250.9 276.2 L1262 262 L1244.3 258.5" fill="none" stroke="#1f1d1a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1050 160 Q1070.8 103.9 1120 70" fill="none" stroke="#b4462b" stroke-width="6" stroke-linecap="round"/><path d="M1118.0 87.9 L1120 70 L1103.2 76.3" fill="none" stroke="#b4462b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><g transform="rotate(-8 1141.0 128.0)"><path d="M1068 159 l-8 16 l22 -15" fill="#fffdf8" stroke="#1f1d1a" stroke-width="2.6" stroke-linejoin="round"/><rect x="1046" y="96" width="190" height="64" rx="14" fill="#fffdf8" stroke="#1f1d1a" stroke-width="2.6"/><rect x="1060" y="157" width="26" height="5" fill="#fffdf8"/><text x="1141.0" y="124.13000000000001" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="18" fill="#1f1d1a" letter-spacing="0.5"><tspan x="1141.0" dy="0">YOU MAY</tspan><tspan x="1141.0" dy="20.7">ALSO LIKE!!</tspan></text></g><g transform="rotate(9 1194.0 207.0)"><path d="M1150 241 l-8 16 l22 -15" fill="#fffdf8" stroke="#1f1d1a" stroke-width="2.6" stroke-linejoin="round"/><rect x="1128" y="172" width="132" height="70" rx="14" fill="#fffdf8" stroke="#1f1d1a" stroke-width="2.6"/><rect x="1142" y="239" width="26" height="5" fill="#fffdf8"/><text x="1194.0" y="203.345" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="17" fill="#1f1d1a" letter-spacing="0.5"><tspan x="1194.0" dy="0">WAIT, ONE</tspan><tspan x="1194.0" dy="19.549999999999997">MORE!</tspan></text></g><g transform="rotate(-4 1125.0 279.0)"><path d="M1068 301 l-8 16 l22 -15" fill="#b4462b" stroke="#1f1d1a" stroke-width="2.6" stroke-linejoin="round"/><rect x="1046" y="256" width="158" height="46" rx="14" fill="#b4462b" stroke="#1f1d1a" stroke-width="2.6"/><rect x="1060" y="299" width="26" height="5" fill="#b4462b"/><text x="1125.0" y="285.12" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="17" fill="#fff8f0" letter-spacing="0.5"><tspan x="1125.0" dy="0">TRENDING NOW</tspan></text></g><g transform="rotate(6 1200.0 345.0)"><path d="M1152 367 l-8 16 l22 -15" fill="#fffdf8" stroke="#1f1d1a" stroke-width="2.6" stroke-linejoin="round"/><rect x="1130" y="322" width="140" height="46" rx="14" fill="#fffdf8" stroke="#1f1d1a" stroke-width="2.6"/><rect x="1144" y="365" width="26" height="5" fill="#fffdf8"/><text x="1200.0" y="350.4" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="15" fill="#1f1d1a" letter-spacing="0.5"><tspan x="1200.0" dy="0">AUTOPLAY IN 3…</tspan></text></g><path d="M1240 40 l6 16 l16 6 l-16 6 l-6 16 l-6 -16 l-16 -6 l16 -6 z" fill="#b4462b"/><text x="1020" y="70" font-family="system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="40" fill="#1f1d1a" transform="rotate(-12 1020 70)">!</text><text x="1266" y="120" font-family="system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="34" fill="#b4462b" transform="rotate(14 1266 120)">!</text>
+</svg>

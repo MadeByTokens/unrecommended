@@ -2,3 +2,11 @@ __pycache__/
 *.pyc
 .venv/
 .DS_Store
+
+# Built by the Action (or by running scripts/update_videos.py locally)
+site/videos.json
+site/videos.tmp
+_site/
+.pytest_cache/
+.ruff_cache/
+.playwright-mcp/

@@ -1,0 +1,45 @@
+# Lint and tests for the code. Only runs when code changes, so editing
+# channels.yaml in your copy never triggers it.
+name: Checks
+
+on:
+  push:
+    paths:
+      - "scripts/**"
+      - "tests/**"
+      - "site/**"
+      - "pyproject.toml"
+      - "requirements*.txt"
+      - ".github/workflows/**"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -r requirements.txt pytest ruff
+
+      - name: Lint Python
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Tests
+        run: pytest -q
+
+      - name: Check the page's JavaScript
+        run: node --check site/app.js
+
+      - name: Check channels.yaml
+        run: python -c "import sys; sys.path.insert(0, 'scripts'); import update_videos as u; u.parse_config(open('channels.yaml').read())"

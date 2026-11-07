@@ -1,0 +1,48 @@
+# Your channels. This is the only file you need to edit.
+#
+# After you save it (the "Commit changes" button), GitHub rebuilds your site
+# in a couple of minutes. It also checks for new videos once a day.
+#
+# Rules of this file (it's YAML):
+# - Indentation is made of spaces, never tabs. Keep it as in the examples.
+# - Every channel is one line that starts with "- " (dash, space).
+# - Lines starting with "#" are notes like this one; they are ignored.
+
+site:
+  # The name shown at the top of your site.
+  title: unrecommended
+  # One line under the title. Leave it empty ("") for none.
+  description: Videos from channels I chose. Nothing else.
+  # true = for children: no links out to YouTube, videos always play
+  # full screen and clicks can't reach YouTube's own buttons.
+  kid_safe: false
+  # How many of each channel's most recent videos to list.
+  videos_per_channel: 200
+
+# Groups of channels. Name the groups whatever you like and put as many
+# channels in each as you want. A channel can be:
+#   - https://www.youtube.com/@3blue1brown   (copy it from the browser)
+#   - "@3blue1brown"                          (quotes needed when it starts with @)
+#   - https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw
+# To show a different name than the channel's own, write:
+#   - url: https://www.youtube.com/@3blue1brown
+#     name: Grant's maths videos
+groups:
+  Science:
+    - https://www.youtube.com/@veritasium
+    - https://www.youtube.com/@minutephysics
+    - https://www.youtube.com/@kurzgesagt
+  Maths:
+    - https://www.youtube.com/@3blue1brown
+    - https://www.youtube.com/@numberphile
+    - https://www.youtube.com/@standupmaths
+  Making things:
+    - https://www.youtube.com/@StuffMadeHere
+    - https://www.youtube.com/@ThisOldTony
+
+# Use other people's lists too (optional). Their channels are added to yours
+# and stay in sync with their lists. Add "#GroupName" to take one group only.
+# Remove the "#" at the start of a line below to turn it on.
+include:
+  # - https://github.com/someone/unrecommended
+  # - https://github.com/someone/unrecommended#Science

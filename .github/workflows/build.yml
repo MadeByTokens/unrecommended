@@ -1,0 +1,77 @@
+# Lists your channels' videos and publishes the site on GitHub Pages.
+# Runs when you change channels.yaml (or anything else), once a day, and
+# when you press "Run workflow" on the Actions tab.
+name: Update videos and publish
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore: ["**.md", "docs/**", "tests/**"]
+  schedule:
+    - cron: "23 6 * * *" # every day at 06:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      # Always the newest yt-dlp: YouTube changes often and old versions break.
+      - name: Install yt-dlp and PyYAML
+        run: pip install --upgrade -r requirements.txt
+
+      - name: Copy the web page
+        run: |
+          mkdir -p _site
+          cp -r site/. _site/
+          rm -f _site/videos.json
+
+      # The videos the site shows now, so a day when YouTube blocks GitHub
+      # never empties the site. Missing on the very first run; that's fine.
+      - name: Get the videos the site has now
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          url=$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq .html_url 2>/dev/null || true)
+          if [ -n "$url" ] && curl -fsSL --retry 3 "${url%/}/videos.json" -o previous.json; then
+            echo "Got the current list from ${url%/}/videos.json"
+          else
+            echo "No current list found (normal for the first run)."
+            rm -f previous.json
+          fi
+
+      - name: List the channels' videos
+        run: |
+          args=(--out _site/videos.json --previous previous.json)
+          # A videos.json committed by hand (see README) is used too.
+          if [ -f site/videos.json ]; then args+=(--previous site/videos.json); fi
+          python scripts/update_videos.py "${args[@]}"
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
