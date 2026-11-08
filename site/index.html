@@ -16,13 +16,14 @@
 
   <header class="masthead">
     <div class="masthead-row">
-      <a class="brand" href="#/">
-        <img class="brand-logo" id="site-logo" src="logo.svg" alt="" width="58" height="60" hidden>
-        <span class="brand-text">
-          <span class="brand-title" id="site-title">unrecommended</span>
-          <span class="brand-desc" id="site-desc"></span>
-        </span>
-      </a>
+      <div class="brand">
+        <a href="#/" tabindex="-1" aria-hidden="true"><img class="brand-logo" id="site-logo" src="logo.svg" alt="" width="58" height="60" hidden></a>
+        <div class="brand-text">
+          <a class="brand-title" id="site-title" href="#/">unrecommended</a>
+          <p class="brand-desc" id="brand-desc" hidden><span id="site-desc"></span>
+            <a class="desc-more" id="desc-more" href="#/about" hidden>more</a></p>
+        </div>
+      </div>
       <form class="search" id="search" role="search">
         <label class="visually-hidden" for="q">Search titles</label>
         <input id="q" type="search" placeholder="Search titles" autocomplete="off">

@@ -185,6 +185,7 @@
       '<span class="spacer"></span>',
       chip("#/later", "Watch later", "later", store.later.filter((id) => byId.has(id)).length),
       chip("#/history", "Watched", "history"),
+      chip("#/about", "About", "about"),
     ].join("");
   }
 
@@ -273,13 +274,6 @@
     more.addEventListener("click", (e) => {
       if (e.target.id === "more-btn") showMore(PAGE);
     });
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver((entries) => {
-        if (entries.some((en) => en.isIntersecting) && count_ < shown.length) showMore(PAGE);
-      }, { rootMargin: "800px" });
-      io.observe(more);
-      cleanup = () => io.disconnect();
-    }
     if (memory) requestAnimationFrame(() => window.scrollTo(0, memory.scroll));
   }
 
@@ -804,11 +798,7 @@
   }
 
   // ------------------------------------------------------------ app
-  let cleanup = null;
-
   function route() {
-    if (cleanup) cleanup();
-    cleanup = null;
     const { parts, params } = parseHash(location.hash);
     renderShelf(parts[0] === "v" ? parseHash(params.get("from") || "#/").parts : parts);
     if (parts[0] === "v") {
@@ -932,7 +922,11 @@
     videos.forEach((v) => byId.set(v.id, v));
 
     document.getElementById("site-title").textContent = site.title;
+    // The one-line description, with "more" leading to the About text,
+    // like a YouTube channel's header.
     document.getElementById("site-desc").textContent = site.description || "";
+    document.getElementById("desc-more").hidden = !site.about;
+    document.getElementById("brand-desc").hidden = !site.description && !site.about;
     document.body.classList.toggle("kid", !!site.kid_safe);
     applyLook();
     if (data.generated) {
